@@ -9,12 +9,12 @@ BECAUSE MODIFY THIS FILE MAYBE CAN MAKE TERMINAL CRASH!!!
 welcomeScreenFilePath = "/var/system/welcome.txt"
 
 # SYSTEM FUNCTIONS
-def getPathOfPhysicalPC(fpath = "/nofile.11000111000000") -> str:
+def getPathOfPhysicalPC(fpath:str) -> str:
     return "./lktermfs"+fpath
 gpoppc = getPathOfPhysicalPC
 
 def getWelcomeScreen():
-    wsf = open(gpoppc(welcomeScreenFilePath),"r")
+    wsf = open(gpoppc(welcomeScreenFilePath), "r", encoding="utf-8")
     return wsf.read()
 
 if __name__ == "__main__":
