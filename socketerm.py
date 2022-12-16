@@ -5,14 +5,11 @@ from termbase import *
 from getpass import getpass
 
 svraddr = ("0.0.0.0", 1145)
+realsvraddr = ("127.0.0.1", 1145)
 class TerminalCore(server.BaseRequestHandler):
     def handle(self):
-        conn = self.request
-        if conn:
-            conn.sendall("--LOGIN SUCCESS--")
-            conn.sendall(":welcomescreen")
-            conn.sendall(getWelcomeScreen())
-            conn.sendall(":/welcomescreen")
+        while True:
+            data = self.request.recv(1024).strip()
 
 def loginTerm(user = "#$@$#_invaild_user_#$@$#"):
     if user == "#$@$#_invaild_user_#$@$#":
@@ -21,13 +18,13 @@ def loginTerm(user = "#$@$#_invaild_user_#$@$#"):
         print("Oh, Terminal is running! ")
     else:
         print("Terminal not started. Starting terminal...")
-        svr = server.TCPServer(svraddr, TerminalCore)
+        svr = server.ThreadingTCPServer(svraddr, TerminalCore)
         svr.serve_forever()
     passwd = getpass("Please input password (user: "+user+" - If this user not have password, You just press <Enter>): ")
     print("Creating session...")
     passwd = base64.b64encode(passwd)
     sign = base64.b64encode("USER: {}; PASSWORD: {}; SALT: {}".format(user, passwd, time.time()))
-    createSession(user, sign, svraddr)
+    createSession(user, sign, realsvraddr)
 
 if __name__ == "__main__":
     raise RuntimeError("Don't open this file!!! This file is a LKTerm system plugin!!! (1)")

@@ -2,6 +2,7 @@ from socket import socket, AF_INET, SOCK_STREAM
 from socket import error as SocketError
 from time import time
 import termcfg as config
+from userman import vaildateUser
 class TerminalException(Exception): ...
 
 def getPathOfPhysicalPC(fpath:str) -> str:
@@ -10,8 +11,28 @@ def getPathOfPhysicalPC(fpath:str) -> str:
 def gpoppc(fpath:str) -> str:
     return getPathOfPhysicalPC(fpath)
 
-def getValue(_str: str) -> str:
-    return _str.replace(" ","").split(":")[1]
+class StringifyDictExtract():
+    '''Extract name/value & to dict from stringify dict.
+    CAUTION: Now it doesn't support list (value type)!!!'''
+    def getName(self, string: str) -> str:
+        return string.replace(" ","").split(":")[0]
+    def getValue(self, string: str) -> str:
+        return string.replace(" ","").split(":")[1]
+    def toDict(self, string: str, sep = ",") -> dict:
+        string = string.replace(" ","")
+        ls = string.split(sep)
+        ret = ""
+        retStart = "dict("
+        retEnd = ")"
+        ret += retStart
+        count = 0
+        for item in ls:
+            ret += self.getName(item) + "=" + self.getValue(item)
+            if count != len(ls) - 1:
+                ret += ","
+            count += 1
+        ret += retEnd
+        return eval(ret)
 
 def isExpired(_salt: float, _waitTime: float) -> bool:
     if _salt + _waitTime < time(): return True
@@ -32,7 +53,12 @@ def isTerminalRunning():
         return False
 
 def createSession(user: str, signkey: str, serverAddress: tuple[str,int]):
-    userdb = open(gpoppc)
+    if vaildateUser(user,signkey):
+        okconn = socket(AF_INET, SOCK_STREAM)
+        okconn.settimeout(10)
+        okconn.connect(serverAddress)
+        okconn.sendall("--AUTHENTICATE SUCCESS--")
+        okconn.close()
 
 if __name__ == "__main__":
     raise RuntimeError("Don't open this file!!! This file is a LKTerm system plugin!!! (1)")
