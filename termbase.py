@@ -52,8 +52,8 @@ def isTerminalRunning():
     except SocketError:
         return False
 
-def createSession(user: str, signkey: str, serverAddress: tuple[str,int]):
-    if vaildateUser(user,signkey):
+def createSession(user: str, token: str, serverAddress: tuple[str,int]):
+    if vaildateToken(user,token):
         okconn = socket(AF_INET, SOCK_STREAM)
         okconn.settimeout(10)
         okconn.connect(serverAddress)

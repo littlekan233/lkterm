@@ -14,7 +14,7 @@ def getUserInfo(_user: str) -> dict:
             return StringifyDictExtract().toDict(user)
     raise TerminalException("User not found! (3)")
 
-def vaildateUser(user: str, sign: str):
+def vaildateToken(user: str, sign: str):
     _user = _passwd = ""
     decodedSign = b64decode(sign).replace(" ","").split(";")
     for a in decodedSign:
