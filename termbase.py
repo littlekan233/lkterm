@@ -2,7 +2,7 @@ from socket import socket, AF_INET, SOCK_STREAM
 from socket import error as SocketError
 from time import time
 import termcfg as config
-from userman import vaildateUser
+from userman import vaildateToken
 class TerminalException(Exception): ...
 
 def getPathOfPhysicalPC(fpath:str) -> str:
