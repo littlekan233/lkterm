@@ -11,12 +11,12 @@ class TerminalCore(server.BaseRequestHandler):
         if conn:
             conn.sendall("--LOGIN SUCCESS--")
             conn.sendall(":welcomescreen")
-            conn.sendall(config.getWelcomeScreen())
+            conn.sendall(getWelcomeScreen())
             conn.sendall(":/welcomescreen")
 
 def loginTerm(user = "#$@$#_invaild_user_#$@$#"):
     if user == "#$@$#_invaild_user_#$@$#":
-        raise TerminalException("Invaild user!! Are you sure LKTUI file not broken or moved?")
+        raise TerminalException("Invaild user!! Are you sure LKTUM file not broken or moved?")
     if isTerminalRunning():
         print("Oh, Terminal is running! ")
     else:
@@ -30,4 +30,4 @@ def loginTerm(user = "#$@$#_invaild_user_#$@$#"):
     createSession(user, sign, svraddr)
 
 if __name__ == "__main__":
-    raise RuntimeError("Don't open this file!!! This file is a LKTerm system plugin!!!")
+    raise RuntimeError("Don't open this file!!! This file is a LKTerm system plugin!!! (1)")

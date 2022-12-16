@@ -1,6 +1,25 @@
 from socket import socket, AF_INET, SOCK_STREAM
 from socket import error as SocketError
+from time import time
+import termcfg as config
 class TerminalException(Exception): ...
+
+def getPathOfPhysicalPC(fpath:str) -> str:
+    return "./lktermfs"+fpath
+
+def gpoppc(fpath:str) -> str:
+    return getPathOfPhysicalPC(fpath)
+
+def getValue(_str: str) -> str:
+    return _str.replace(" ","").split(":")[1]
+
+def isExpired(_salt: float, _waitTime: float) -> bool:
+    if _salt + _waitTime < time(): return True
+    return False
+
+def getWelcomeScreen():
+    wsf = open(gpoppc(config.welcomeScreenFilePath), "r", encoding="utf-8")
+    return wsf.read()
 
 def isTerminalRunning():
     try:
@@ -16,4 +35,4 @@ def createSession(user: str, signkey: str, serverAddress: tuple[str,int]):
     userdb = open(gpoppc)
 
 if __name__ == "__main__":
-    raise RuntimeError("Don't open this file!!! This file is a LKTerm system plugin!!!")
+    raise RuntimeError("Don't open this file!!! This file is a LKTerm system plugin!!! (1)")
